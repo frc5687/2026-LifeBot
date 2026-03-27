@@ -15,7 +15,7 @@ Module::Module(std::unique_ptr<ModuleIO> io)
 
 void Module::Periodic() {
   m_io->UpdateInputs(m_inputs, m_isSignalsBatched);
-  LogState();
+  // LogState();
 }
 
 void Module::SetDesiredState(const frc::SwerveModuleState &state) {

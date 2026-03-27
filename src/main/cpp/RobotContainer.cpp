@@ -12,6 +12,7 @@
 
 #include "HardwareMap.h"
 #include "commands/drive/DriveMaintainingHeadingCommand.h"
+#include "pathplanner/lib/auto/AutoBuilder.h"
 #include "subsystem/drive/PigeonIO.h"
 #include "subsystem/drive/SimGyroIO.h"
 #include "subsystem/drive/module/ModuleConfig.h"
@@ -23,17 +24,20 @@
 RobotContainer::RobotContainer() {
   m_drive = CreateDrive();
 //   m_elevator = CreateElevator();
-  m_vision = CreateVision();
+//   m_vision = CreateVision();
   ConfigureBindings();
+
+  m_autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
+  frc::SmartDashboard::PutData("Auto Chooser", &m_autoChooser);
 }
 
 std::unique_ptr<DriveSubsystem> RobotContainer::CreateDrive() {
   // Module encoder offsets (tune these per robot)
   constexpr std::array<units::turn_t, 4> kEncoderOffsets{
-      0.079569_tr,               // FL
-      0.43359375_tr - 0.5_tr,    // FR
-      0.35595703125_tr - 0.5_tr, // BL
-      -0.2431540625_tr + 0.5_tr  // BR
+      -0.403076171875_tr,         // FL
+      0.2744140625_tr,            // FR
+      0.44921875_tr,                 // BL
+      -0.15185546875_tr          // BR
   };
 
   if (frc::RobotBase::IsSimulation()) {
@@ -94,11 +98,11 @@ std::unique_ptr<DriveSubsystem> RobotContainer::CreateDrive() {
 //           HardwareMap::CAN::TalonFX::RightElevator));
 // }
 
-std::unique_ptr<VisionSubsystem> RobotContainer::CreateVision() {
-  return std::make_unique<VisionSubsystem>(
-      std::make_unique<SimVisionIO>(),
-      m_drive->GetOdometryThread());
-}
+// std::unique_ptr<VisionSubsystem> RobotContainer::CreateVision() {
+//   return std::make_unique<VisionSubsystem>(
+//       std::make_unique<SimVisionIO>(),
+//       m_drive->GetOdometryThread());
+// }
 
 void RobotContainer::ConfigureBindings() {
   using frc2::cmd::Run;
@@ -117,8 +121,10 @@ void RobotContainer::ConfigureBindings() {
           []() { return frc::Pose2d{5_m, 3_m, frc::Rotation2d{45_deg}}; },
           false)
       .ToPtr());
+      
 }
 
-frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return frc2::cmd::Print("No autonomous command configured");
+frc2::Command *RobotContainer::GetAutonomousCommand() {
+  return m_autoChooser.GetSelected();
 }
+

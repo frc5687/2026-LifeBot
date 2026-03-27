@@ -100,6 +100,7 @@ private:
   size_t m_loopTimeIndex{0};
   std::mutex m_statisticsMutex;
 
+  
   std::atomic<units::second_t> m_lastValidTimestamp{0_s};
   static constexpr units::second_t kMaxTimestampDelta{0.1_s};
 

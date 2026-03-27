@@ -128,3 +128,9 @@ frc2::Command *RobotContainer::GetAutonomousCommand() {
   return m_autoChooser.GetSelected();
 }
 
+<<<<<<< HEAD
+=======
+// frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+//   return frc2::cmd::Print("No autonomous command configured");
+// }
+>>>>>>> 1851bbae067d0985439a69e4dcbde35d2ef8715f

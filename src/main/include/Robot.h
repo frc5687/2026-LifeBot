@@ -27,9 +27,9 @@ public:
   void DisabledInit() override;
   void DisabledPeriodic() override;
   void DisabledExit() override;
-  void AutonomousInit() override;
-  void AutonomousPeriodic() override;
-  void AutonomousExit() override;
+  // void AutonomousInit() override;
+  // void AutonomousPeriodic() override;
+  // void AutonomousExit() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;
   void TeleopExit() override;
@@ -38,7 +38,7 @@ public:
   void TestExit() override;
 
 private:
-  std::optional<frc2::CommandPtr> m_autonomousCommand;
+  //std::optional<frc2::CommandPtr> m_autonomousCommand;
 
   RobotContainer m_container;
 };

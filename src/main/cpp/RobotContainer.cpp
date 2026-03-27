@@ -119,6 +119,6 @@ void RobotContainer::ConfigureBindings() {
       .ToPtr());
 }
 
-frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return frc2::cmd::Print("No autonomous command configured");
-}
+// frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+//   return frc2::cmd::Print("No autonomous command configured");
+// }

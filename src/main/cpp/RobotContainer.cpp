@@ -117,7 +117,10 @@ void RobotContainer::ConfigureBindings() {
           []() { return frc::Pose2d{5_m, 3_m, frc::Rotation2d{45_deg}}; },
           false)
       .ToPtr());
-}
+
+
+//   m_driver.Triangle().OnTrue(Run([this] {m_drive.ResetHeading(0_deg); } ));
+// }
 
 // frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 //   return frc2::cmd::Print("No autonomous command configured");

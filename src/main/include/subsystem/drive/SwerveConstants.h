@@ -114,7 +114,7 @@ inline constexpr int kModuleCount = 4;
 inline constexpr units::meter_t kTrackWidth = 0.5842_m;
 inline constexpr units::meter_t kWheelBase = 0.5842_m;
 
-inline constexpr units::kilogram_t kMass = 45_kg;
+inline constexpr units::kilogram_t kMass = 30_kg;
 
 inline constexpr std::array<frc::Translation2d, kModuleCount>
     kModuleTranslations{

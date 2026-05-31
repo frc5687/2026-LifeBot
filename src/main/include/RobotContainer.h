@@ -18,11 +18,7 @@ class RobotContainer {
  public:
   RobotContainer();
 
-<<<<<<< HEAD
   frc2::Command *GetAutonomousCommand();
-=======
- // frc2::CommandPtr GetAutonomousCommand();
->>>>>>> 1851bbae067d0985439a69e4dcbde35d2ef8715f
 
  private:
   void ConfigureBindings();

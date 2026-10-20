@@ -14,7 +14,7 @@ public:
     ~SimRoller1IO() override = default;
 
     void UpdateInputs(Roller1IOInputs& inputs) override;
-    void SetVoltage(units::volt_t Voltage);
+    void SetVoltage(units::volt_t Voltage) override;
     void SetVelocity(units::turns_per_second_t roller1Velocity) override;
     void Stop() override;
 private:

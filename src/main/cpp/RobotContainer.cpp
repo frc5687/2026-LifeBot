@@ -1,8 +1,8 @@
 // RobotContainer.cpp
 #include "RobotContainer.h"
-
 #include <frc/RobotBase.h>
 #include <frc2/command/Commands.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
 #include <units/angle.h>
 #include <units/length.h>
 
@@ -11,15 +11,15 @@
 #include <utility>
 
 #include "HardwareMap.h"
-// #include "commands/drive/DriveMaintainingHeadingCommand.h"
+#include "commands/drive/DriveMaintainingHeadingCommand.h"
 #include "commands/intake/IntakeCommand.h"
 #include "pathplanner/lib/auto/AutoBuilder.h"
-// #include "subsystem/drive/PigeonIO.h"
+#include "subsystem/drive/PigeonIO.h"
 #include "subsystem/drive/SimGyroIO.h"
 #include "subsystem/drive/module/ModuleConfig.h"
 #include "subsystem/drive/module/SimModuleIO.h"
-// #include "commands/drive/DriveWithNormalVectorAlignment.h"
-// #include "subsystem/drive/module/CTREModuleIO.h"
+#include "commands/drive/DriveWithNormalVectorAlignment.h"
+#include "subsystem/drive/module/CTREModuleIO.h"
 #include "subsystem/intake/roller1/CTRERolle1IO.h"
 #include "subsystem/intake/roller1/Roller1.h"
 #include "subsystem/intake/roller1/Roller1IO.h"
@@ -29,12 +29,37 @@
 #include "subsystem/intake/roller2/Roller2IO.h"
 #include "subsystem/intake/roller2/SimRoller2.h"
 #include <subsystem/intake/roller2/CTRERolle2IO.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 // #include "subsystem/vision/SimVisionIO.h"
 
-RobotContainer::RobotContainer() {
-  // m_drive = CreateDrive();
-//   m_roller1 = CreateRoller1();
-//   m_roller2 = CreateRoller2();
+
+
+
+
+
+
+std::unique_ptr<Roller1IO> MakeRoller1IO () {
+    if (frc::RobotBase::IsSimulation()){
+        return std::make_unique<SimRoller1IO>();
+    }
+    return std::make_unique<CTRERoller1IO>(HardwareMap::CAN::TalonFX::Roller1Motor);
+}
+
+
+std::unique_ptr<Roller2IO> MakeRoller2IO () {
+    if (frc::RobotBase::IsSimulation()){
+        return std::make_unique<SimRoller2IO>();
+    }
+    return std::make_unique<CTRERoller2IO>(HardwareMap::CAN::TalonFX::Roller2Motor);
+}
+
+
+
+RobotContainer::RobotContainer()
+: m_roller1{MakeRoller1IO()},
+m_roller2{MakeRoller2IO()}
+{
+//   m_drive = CreateDrive();
 //   m_elevator = CreateElevator();
 //   m_vision = CreateVision();
   ConfigureBindings();
@@ -43,7 +68,7 @@ RobotContainer::RobotContainer() {
   // frc::SmartDashboard::PutData("Auto Chooser", &m_autoChooser);
 }
 
-// std::unique_ptr<DriveSubsystem> RobotContainer::CreateDrive() {
+//  std::unique_ptr<DriveSubsystem> RobotContainer::CreateDrive() {
 //   // Module encoder offsets (tune these per robot)
 //   constexpr std::array<units::turn_t, 4> kEncoderOffsets{
 //       -0.403076171875_tr,         // FL
@@ -65,7 +90,7 @@ RobotContainer::RobotContainer() {
 //         std::make_unique<SimGyroIO>());
 //   }
 
-  // Real hardware
+//   // Real hardware
 //   return std::make_unique<DriveSubsystem>(
 //       std::make_unique<CTREModuleIO>(
 //           CTREModuleIO::DeviceIDs{
@@ -117,31 +142,16 @@ RobotContainer::RobotContainer() {
 // }
 
 
-std::unique_ptr<Roller1IO> MakeRoller1IO () {
-    if (frc::RobotBase::IsSimulation()){
-        return std::make_unique<SimRoller1IO>();
-    }
-    return std::make_unique<CTRERoller1IO>(HardwareMap::CAN::TalonFX::Roller1Motor);
-}
-
-
-std::unique_ptr<Roller2IO> MakeRoller2IO () {
-    if (frc::RobotBase::IsSimulation()){
-        return std::make_unique<SimRoller2IO>();
-    }
-    return std::make_unique<CTRERoller2IO>(HardwareMap::CAN::TalonFX::Roller2Motor);
-}
-
 void RobotContainer::ConfigureBindings() {
   using frc2::cmd::Run;
 
   // Set default drive command
-//   m_drive->SetDefaultCommand(DriveMaintainingHeadingCommand(
-//       m_drive.get(),
-//       [this] { return -m_driver.GetLeftY(); },
-//       [this] { return -m_driver.GetLeftX(); },
-//       [this] { return -m_driver.GetRightX(); },
-//       false)); //s lew limiter
+  // m_drive.SetDefaultCommand(DriveMaintainingHeadingCommand(
+  //     &m_drive,
+  //     [this] { return -m_driver.GetLeftY(); },
+  //     [this] { return -m_driver.GetLeftX(); },
+  //     [this] { return -m_driver.GetRightX(); },
+  //     false)); //s lew limiter
 
 //   m_driver.Square().WhileTrue(
 //       DriveWithNormalVectorAlignment(
@@ -151,15 +161,16 @@ void RobotContainer::ConfigureBindings() {
 //       .ToPtr());
 
 
-//   m_driver.L1().WhileTrue(Run([this] {}))
-//         }
-
-
+  m_driver.Triangle().WhileTrue(IntakeCommand(&m_roller1, &m_roller2).ToPtr());
+  m_driver.Square().WhileTrue(Run([this] {m_roller1.SetVelocity(16_tps), m_roller2.SetVelocity(16_tps);}, {&m_roller1, &m_roller2}));
 }
+  
 
-frc2::Command *RobotContainer::GetAutonomousCommand() {
-  return m_autoChooser.GetSelected();
-}
+
+
+// frc2::Command *RobotContainer::GetAutonomousCommand() {
+//   return m_autoChooser.GetSelected();
+// }
 
 // frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 //   return frc2::cmd::Print("No autonomous command configured");

@@ -1,7 +1,7 @@
 #include "subsystem/intake/roller1/Roller1.h"
 
 Roller1::Roller1(std::unique_ptr<Roller1IO> io) :
-    LoggedSubsystem("Intake"),
+    LoggedSubsystem("Roller1"),
     m_io(std::move(io)) {
 }
 

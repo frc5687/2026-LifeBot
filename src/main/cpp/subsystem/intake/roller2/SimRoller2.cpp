@@ -39,8 +39,8 @@ void    SimRoller2IO::UpdateInputs(Roller2IOInputs& inputs) {
 
 }
 
-void SimRoller2IO::SetVelocity(units::turns_per_second_t spins1){
-    m_controller.SetSetpoint(spins1.value());
+void SimRoller2IO::SetVelocity(units::turns_per_second_t spins2){
+    m_controller.SetSetpoint(spins2.value());
 }
 
 void SimRoller2IO::SetVoltage(units::volt_t Voltage){

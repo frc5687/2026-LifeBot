@@ -36,7 +36,7 @@ public:
 
     virtual void UpdateInputs(Roller2IOInputs& inputs) = 0;
     virtual void SetVoltage(volt_t Voltage) = 0;
-    virtual void SetVelocity(turns_per_second_t croller2Velocity) = 0;
+    virtual void SetVelocity(turns_per_second_t roller2Velocity) = 0;
     virtual void Stop() = 0;
 
 };

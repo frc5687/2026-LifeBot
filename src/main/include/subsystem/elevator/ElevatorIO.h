@@ -1,19 +1,14 @@
 #pragma once
 
 #include <units/length.h>
+#include <units/velocity.h>
 
 struct ElevatorIOInputs {
-  units::meter_t leftHeight{0_m};
-  units::meter_t rightHeight{0_m};
-  bool configured{false};
+  units::meter_t elevatorHeight{0_m};
+  units::meters_per_second_t elevatorVelocity{0_mps};
 };
 
-/**
- * Hardware abstraction for the elevator.
- *
- * The subsystem talks to this interface instead of directly talking to CTRE.
- * That makes it possible to add a simulation implementation later.
- */
+
 class ElevatorIO {
  public:
   virtual ~ElevatorIO() = default;
@@ -22,10 +17,6 @@ class ElevatorIO {
   virtual void SetHeight(units::meter_t height) = 0;
   virtual void Stop() = 0;
 
-  /**
-   * Call ONLY when the elevator is physically resting at its known bottom
-   * position. There is no limit switch, so software cannot independently
-   * verify that condition.
-   */
+
   virtual bool ZeroAtBottom() = 0;
 };

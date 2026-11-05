@@ -14,37 +14,25 @@
 
 #include "Constants.h"
 #include "HardwareMap.h"
+#include "subsystem/elevator/ElevatorSubsystem.h"
 #include "subsystem/elevator/SimElevatorIO.h"
-#include "subsystem/elevator/CTREElevatorIO.h"
+// #include "subsystem/elevator/CTREElevatorIO.h"
 
 RobotContainer::RobotContainer() {
   // Module encoder offsets (tune these per robot)
-  constexpr std::array<units::turn_t, 4> kEncoderOffsets{
-      0.079569_tr,                // FL
-      0.43359375_tr - 0.5_tr,     // FR
-      0.35595703125_tr - 0.5_tr,  // BL
-      -0.2431540625_tr + 0.5_tr   // BR
-  };
 
   // bool simulation = true;
-  if (frc::RobotBase::IsSimulation()) {
-    m_elevator = std::make_unique<ElevatorSubsystem>(
-        std::make_unique<SimElevatorIO>());
-  } else {
-   auto elevatorIO = std::make_unique<CTREElevatorIO>(
-        HardwareMap::kElevatorLeftMotor, HardwareMap::kElevatorRightMotor,
-        HardwareMap::kElevatorLeftEncoder, HardwareMap::kElevatorRightEncoder);
-    m_elevator = std::make_unique<ElevatorSubsystem>(std::move(elevatorIO));
 
-  ConfigureBindings();
-}
+  auto elevatorIO = std::make_unique<SimElevatorIO>();
+      m_elevator = std::make_unique<ElevatorSubsystem>(std::move(elevatorIO));
 
-double RobotContainer::ApplyDeadband(double value, double deadband) {
-  if (std::abs(value) < deadband) {
-    return 0.0;
-  }
-  return (value - std::copysign(deadband, value)) / (1.0 - deadband);
-}
+
+// double RobotContainer::ApplyDeadband(double value, double deadband) {
+//   if (std::abs(value) < deadband) {
+//     return 0.0;
+//   }
+//   return (value - std::copysign(deadband, value)) / (1.0 - deadband);
+// }
 
 void RobotContainer::ConfigureBindings() {
   using frc2::cmd::Run;
@@ -79,8 +67,8 @@ void RobotContainer::ConfigureBindings() {
   // m_driver.Circle().OnTrue(
   //   Run([this] { m_elevator->SetElevatorHeight(0.6_m); },
   //   {m_elevator.get()}));
-}
+}}
 
-frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return frc2::cmd::Print("No autonomous command configured");
-}
+// frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+//   return frc2::cmd::Print("No autonomous command configured");
+// }

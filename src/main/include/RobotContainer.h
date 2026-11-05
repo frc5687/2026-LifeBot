@@ -11,6 +11,7 @@
 #include <array>
 #include <memory>
 
+#include "subsystem/elevator/ElevatorIO.h"
 #include "subsystem/elevator/ElevatorSubsystem.h"
 // #include "subsystem/drive/DriveSubsystem.h"
 
@@ -30,9 +31,11 @@ class RobotContainer {
   // std::unique_ptr<VisionSubsystem> CreateVision();
   // std::unique_ptr<Roller1> m_roller1;
   // std::unique_ptr<Roller2> m_roller2;
+  std::unique_ptr<ElevatorSubsystem> CreateElevator();
 
   // std::unique_ptr<DriveSubsystem> m_drive;
   std::unique_ptr<ElevatorSubsystem> m_elevator;
+  static double ApplyDeadband(double value, double deadband = 0.1);
   // std::unique_ptr<VisionSubsystem> m_vision;
   frc2::CommandPS5Controller m_driver{0};
   frc::SendableChooser<frc2::Command *> m_autoChooser;

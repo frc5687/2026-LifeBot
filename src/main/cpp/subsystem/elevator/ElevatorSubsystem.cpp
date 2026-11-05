@@ -30,8 +30,6 @@ bool ElevatorSubsystem::ZeroAtBottom() {
 
 void ElevatorSubsystem::UpdateInputs() {
   m_io->UpdateInputs(m_inputs);
-
-  m_averageHeight = (m_inputs.leftHeight + m_inputs.rightHeight) / 2.0;
 }
 
 void ElevatorSubsystem::LogTelemetry() {

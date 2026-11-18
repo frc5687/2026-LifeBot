@@ -26,7 +26,7 @@ RobotContainer::RobotContainer() {
   auto elevatorIO = std::make_unique<SimElevatorIO>();
       m_elevator = std::make_unique<ElevatorSubsystem>(std::move(elevatorIO));
 
-
+}
 // double RobotContainer::ApplyDeadband(double value, double deadband) {
 //   if (std::abs(value) < deadband) {
 //     return 0.0;
@@ -57,17 +57,16 @@ void RobotContainer::ConfigureBindings() {
 //       },
 //       {m_drive.get()}));
 
-  m_driver.Square().OnTrue(Run([this] { m_elevator->SetElevatorHeight(0.3_m); },
-                               {m_elevator.get()}));
+  m_driver.Square().OnTrue(Run([this] { m_elevator->SetElevatorHeight(0.3_m); },{m_elevator.get()}));
 
-  m_driver.Triangle().OnTrue(Run(
-      [this] { m_elevator->SetElevatorHeight(0.0_m); }, {m_elevator.get()}));
+  m_driver.Triangle().OnTrue(Run([this] { m_elevator->SetElevatorHeight(0.0_m); }, {m_elevator.get()}));
 
 
   // m_driver.Circle().OnTrue(
   //   Run([this] { m_elevator->SetElevatorHeight(0.6_m); },
   //   {m_elevator.get()}));
-}}
+}
+
 
 // frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 //   return frc2::cmd::Print("No autonomous command configured");

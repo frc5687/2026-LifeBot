@@ -10,22 +10,16 @@ ElevatorSubsystem::ElevatorSubsystem(std::unique_ptr<ElevatorIO> io)
 }
 
 void ElevatorSubsystem::SetElevatorHeight(units::meter_t height) {
-  if (!m_inputs.configured) {
-    m_io->Stop();
-    return;
-  }
-
   m_io->SetHeight(height);
 }
 
-void ElevatorSubsystem::StopElevator() {
-  m_io->Stop();
-}
 
-bool ElevatorSubsystem::ZeroAtBottom() {
-  const bool zeroed = m_io->ZeroAtBottom();
-  m_io->UpdateInputs(m_inputs);
-  return zeroed;
+bool ElevatorSubsystem::AtSetpoint(){
+  if ( m_desiredPostion - m_inputs.elevatorHeight < ElevatorConstants::kPositionTolorance){
+      return true;}
+  else{
+    return false; 
+  }
 }
 
 void ElevatorSubsystem::UpdateInputs() {
@@ -33,10 +27,6 @@ void ElevatorSubsystem::UpdateInputs() {
 }
 
 void ElevatorSubsystem::LogTelemetry() {
-  Log("Configured", m_inputs.configured);
-  Log("LeftHeightMeters", m_inputs.leftHeight.value());
-  Log("RightHeightMeters", m_inputs.rightHeight.value());
-  Log("AverageHeightMeters", m_averageHeight.value());
-  Log("SideToSideErrorMeters",
-      (m_inputs.leftHeight - m_inputs.rightHeight).value());
+  Log("ElevatorHeight", m_inputs.elevatorHeight.value());
+  Log("ElevatorVelocity", m_inputs.elevatorVelocity.value());
 }

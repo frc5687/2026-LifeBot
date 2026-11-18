@@ -27,9 +27,9 @@ public:
   void DisabledInit() override;
   void DisabledPeriodic() override;
   void DisabledExit() override;
-  // void AutonomousInit() override;
-  // void AutonomousPeriodic() override;
-  // void AutonomousExit() override;
+  void AutonomousInit() override;
+  void AutonomousPeriodic() override;
+  void AutonomousExit() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;
   void TeleopExit() override;

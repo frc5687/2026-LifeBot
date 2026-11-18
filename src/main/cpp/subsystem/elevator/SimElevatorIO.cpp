@@ -6,7 +6,7 @@
 #include "units/voltage.h"
 
 SimElevatorIO::SimElevatorIO() :
-    m_elevatorSim(ElevatorConstants::kMotors, ElevatorConstants::kGearRatio, ElevatorConstants::kMass, ElevatorConstants::kDrumRadius, ElevatorConstants:: kMaxHeight, ElevatorConstants::kMaxHeight, true, {0.001,0.001}),
+    m_elevatorSim(ElevatorConstants::kMotors, ElevatorConstants::kGearRatio, ElevatorConstants::kMass, ElevatorConstants::kDrumRadius, ElevatorConstants:: kMaxHeight, ElevatorConstants::kMaxHeight, true, 0_m, {0.001,0.001}),
     m_pidController(100, 0, 0, frc::TrapezoidProfile<units::meter>::Constraints(ElevatorConstants::kMaxVelocity, ElevatorConstants::kMaxAcceleration)) {}
 
 
@@ -18,7 +18,17 @@ SimElevatorIO::SimElevatorIO() :
 
     void SimElevatorIO::SetHeight(units::meter_t desiredHeight){
         auto postion = m_elevatorSim.GetPosition();
-        auto pidOutput = m_pidController.Calculate(postion, disiredHeight);
+        auto pidOutput = m_pidController.Calculate(postion, desiredHeight);
 
         m_elevatorSim.SetInputVoltage(units::volt_t{pidOutput});
     }
+
+// bool SimElevatorIO::AtSetpoint(){
+//   if (  - m_elevatorSim.GetPosition() < ElevatorConstants::kPositionTolorance){
+//       return true;}
+//   else{
+//     return false; 
+//   }
+}
+
+    

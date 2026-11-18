@@ -19,7 +19,7 @@ class RobotContainer {
  public:
   RobotContainer();
 
-  frc2::Command *GetAutonomousCommand();
+  // frc2::Command *GetAutonomousCommand();
 
  private:
   void ConfigureBindings();
@@ -35,8 +35,8 @@ class RobotContainer {
 
   // std::unique_ptr<DriveSubsystem> m_drive;
   std::unique_ptr<ElevatorSubsystem> m_elevator;
-  static double ApplyDeadband(double value, double deadband = 0.1);
+  // static double ApplyDeadband(double value, double deadband = 0.1);
   // std::unique_ptr<VisionSubsystem> m_vision;
   frc2::CommandPS5Controller m_driver{0};
-  frc::SendableChooser<frc2::Command *> m_autoChooser;
+  // frc::SendableChooser<frc2::Command *> m_autoChooser;
 };

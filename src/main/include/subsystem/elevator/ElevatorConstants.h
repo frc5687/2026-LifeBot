@@ -12,7 +12,7 @@ namespace ElevatorConstants {
 
 inline constexpr double kGearRatio = 0.0;  // TODO: enter actual ratio
 
-inline constexpr frc::DCMotor kMotors = frc::DCMotor::KrakenX60FOC(2);
+inline constexpr frc::DCMotor kMotors = frc::DCMotor::KrakenX60(2);
 
 inline constexpr units::meter_t kDrumRadius = 0_m;  // TODO: measure it
 
@@ -38,8 +38,12 @@ inline constexpr double kI = 0.0;  // Usually start at 0
 inline constexpr double kD = 0.0;  // TODO: tune
 
 // Mechanism rotations per second and mechanism rotations per second squared.
-inline constexpr double kMaxVelocity = 0.0;  // TODO: tune
-inline constexpr double kMaxAcceleration = 0.0;   // TODO: tune
+inline constexpr units::meters_per_second_t kMaxVelocity = 0_mps;  // TODO: tune
+inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 0_mps_sq;   // TODO: tune
+inline constexpr double kMotionMagicCruiseVelocity = 0.0;
+inline constexpr double kMotionMagicAcceleration = 0.0;
+inline constexpr double kStageTravelPerDrumRotation = 0.0;
+
 
 
 

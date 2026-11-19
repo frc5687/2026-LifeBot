@@ -12,7 +12,7 @@ class SimElevatorIO : public ElevatorIO{
 
         void UpdateInputs(ElevatorIOInputs& inputs) override;
         void SetHeight(units::meter_t desiredHeight) override;
-        // bool AtSetpoint() override;
+        bool AtSetpoint() override;
 
 
     private:

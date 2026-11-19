@@ -23,12 +23,9 @@ SimElevatorIO::SimElevatorIO() :
         m_elevatorSim.SetInputVoltage(units::volt_t{pidOutput});
     }
 
-// bool SimElevatorIO::AtSetpoint(){
-//   if (  - m_elevatorSim.GetPosition() < ElevatorConstants::kPositionTolorance){
-//       return true;}
-//   else{
-//     return false; 
-//   }
-}
-
-    
+    bool SimElevatorIO::AtSetpoint(){
+        if (  - m_elevatorSim.GetPosition() < ElevatorConstants::kPositionTolorance){
+            return true;}
+        else{
+            return false;
+            }}

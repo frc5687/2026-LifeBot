@@ -13,9 +13,9 @@ class ElevatorIO {
  public:
   virtual ~ElevatorIO() = default;
 
-  virtual void UpdateInputs(ElevatorIOInputs& inputs) = 0;
-  virtual void SetHeight(units::meter_t height) = 0;
+  virtual void UpdateInputs(ElevatorIOInputs& inputs);
+  virtual void SetHeight(units::meter_t height);
 
 
-  virtual bool AtSetpoint() = 0;
+  virtual bool AtSetpoint();
 };

@@ -5,6 +5,8 @@
 
 struct ElevatorIOInputs {
   units::meter_t elevatorHeight{0_m};
+  units::meter_t desiredElevatorHeight{0_m};
+
   units::meters_per_second_t elevatorVelocity{0_mps};
 };
 
@@ -13,9 +15,9 @@ class ElevatorIO {
  public:
   virtual ~ElevatorIO() = default;
 
-  virtual void UpdateInputs(ElevatorIOInputs& inputs);
-  virtual void SetHeight(units::meter_t height);
+  virtual void UpdateInputs(ElevatorIOInputs& inputs) = 0;
+  virtual void SetHeight(units::meter_t height) = 0;
 
 
-  virtual bool AtSetpoint();
+  virtual bool AtSetpoint() = 0;
 };

@@ -57,7 +57,7 @@ void RobotContainer::ConfigureBindings() {
 //       },
 //       {m_drive.get()}));
 
-  m_driver.Square().OnTrue(Run([this] { m_elevator->SetElevatorHeight(0.3_m); },{m_elevator.get()}));
+  m_driver.Square().OnTrue(Run([this] { m_elevator->SetElevatorHeight(1.0_m); },{m_elevator.get()}));
 
   m_driver.Triangle().OnTrue(Run([this] { m_elevator->SetElevatorHeight(0.0_m); }, {m_elevator.get()}));
 

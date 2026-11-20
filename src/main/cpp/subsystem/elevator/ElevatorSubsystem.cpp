@@ -18,7 +18,7 @@ bool ElevatorSubsystem::AtSetpoint(){
   if ( m_desiredPostion - m_inputs.elevatorHeight < ElevatorConstants::kPositionTolorance){
       return true;}
   else{
-    return false; 
+    return false;
   }
 }
 
@@ -29,4 +29,5 @@ void ElevatorSubsystem::UpdateInputs() {
 void ElevatorSubsystem::LogTelemetry() {
   Log("ElevatorHeight", m_inputs.elevatorHeight.value());
   Log("ElevatorVelocity", m_inputs.elevatorVelocity.value());
+  Log("ElevatorDesiredHeight", m_inputs.desiredElevatorHeight.value());
 }

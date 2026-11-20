@@ -11,7 +11,7 @@ SimElevatorIO::SimElevatorIO() :
                   ElevatorConstants::kMass,
                   ElevatorConstants::kDrumRadius,
                   ElevatorConstants:: kMinHeight,
-                  ElevatorConstants::kMaxHeight, true, 0_m, {0.001,0.001}),
+                  ElevatorConstants::kMaxHeight, true, 0.3048_m, {0.001,0.001}),
     m_pidController(100, 0, 0,
                     frc::TrapezoidProfile<units::meter>::Constraints(
                         ElevatorConstants::kMaxVelocity, ElevatorConstants::kMaxAcceleration)) {}

@@ -18,10 +18,10 @@ inline constexpr units::meter_t kDrumRadius = 0.0215_m;  // TODO: measure it
 inline constexpr auto kCircumference =
     2.0 * std::numbers::pi_v<double> * kDrumRadius;
 
-inline constexpr units::kilogram_t kMass = 1_kg;
+inline constexpr units::kilogram_t kMass = 2.5_kg;
 
-inline constexpr units::meter_t kMaxHeight = 1_m;
-inline constexpr units::meter_t kMinHeight = .00_m;
+inline constexpr units::meter_t kMaxHeight = 1.8796_m;
+inline constexpr units::meter_t kMinHeight = .254_m;
 inline constexpr units::meter_t kPositionTolorance = .01_m;
 
 // -------------------- Motor / sensor directions --------------------
@@ -35,14 +35,14 @@ inline constexpr bool kRightEncoderCounterClockwisePositive = true;  // TODO
 // -------------------- Motion Magic / PID --------------------
 // Talon FX position units are mechanism rotations after applying the ratio above.
 // Start with conservative values and tune under your team's controls lead.
-inline constexpr double kP = 3.00;  // TODO: tune
-inline constexpr double kI = 0.00;  // Usually start at 0
-inline constexpr double kD = 0.00;  // TODO: tune
+inline constexpr double kP = 0.001;  // TODO: tune
+inline constexpr double kI = 0.001;  // Usually start at 0
+inline constexpr double kD = 0.001;  // TODO: tune
 
 // Mechanism rotations per second and mechanism rotations per second squared.
 inline constexpr units::meters_per_second_t kMaxVelocity =
     (kMotor.freeSpeed / kGearRatio) * kDrumRadius / 1_rad;  // TODO: tune
-inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 5_mps_sq;
+inline constexpr units::meters_per_second_squared_t kMaxAcceleration = .5_mps_sq;
 
 
 

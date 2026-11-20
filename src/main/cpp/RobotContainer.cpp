@@ -38,9 +38,9 @@ void RobotContainer::ConfigureBindings() {
   using frc2::cmd::RunOnce;
 
 
-  m_driver.Square().OnTrue(Run([this] { m_elevator->SetElevatorHeight(1.0_m); },{m_elevator.get()}));
+  m_driver.Square().OnTrue(Run([this] { m_elevator->SetElevatorHeight(1.7_m); },{m_elevator.get()}));
 
-  m_driver.Triangle().OnTrue(Run([this] { m_elevator->SetElevatorHeight(0.0_m); }, {m_elevator.get()}));
+  m_driver.Triangle().OnTrue(Run([this] { m_elevator->SetElevatorHeight(0.3048_m); }, {m_elevator.get()}));
 
 
 }

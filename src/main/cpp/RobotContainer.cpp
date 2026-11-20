@@ -16,58 +16,31 @@
 #include "HardwareMap.h"
 #include "subsystem/elevator/ElevatorSubsystem.h"
 #include "subsystem/elevator/SimElevatorIO.h"
-// #include "subsystem/elevator/CTREElevatorIO.h"
+#include "subsystem/elevator/CTREElevatorIO.h"
 
 RobotContainer::RobotContainer() {
-  // Module encoder offsets (tune these per robot)
 
-  // bool simulation = true;
 
-  auto elevatorIO = std::make_unique<SimElevatorIO>();
+    // if (frc::RobotBase::IsSimulation()) {
+      auto elevatorIO = std::make_unique<SimElevatorIO>();
       m_elevator = std::make_unique<ElevatorSubsystem>(std::move(elevatorIO));
+    // } else {
+    //   auto elevatorIO = std::make_unique<CTREElevatorIO>(
+    //       HardwareMap::CAN::TalonFX::LeftElevator,
+    //       HardwareMap::CAN::TalonFX::RightElevator);
+    //   m_elevator = std::make_unique<ElevatorSubsystem>(std::move(elevatorIO));
+    // }
+    ConfigureBindings();
 
 }
-// double RobotContainer::ApplyDeadband(double value, double deadband) {
-//   if (std::abs(value) < deadband) {
-//     return 0.0;
-//   }
-//   return (value - std::copysign(deadband, value)) / (1.0 - deadband);
-// }
-
 void RobotContainer::ConfigureBindings() {
   using frc2::cmd::Run;
   using frc2::cmd::RunOnce;
 
-//   m_drive->SetDefaultCommand(Run(
-//       [this] {
-//         const double xInput =
-//             ApplyDeadband(-m_driver.GetLeftY(), Constants::kJoystickDeadband);
-//         const double yInput =
-//             ApplyDeadband(-m_driver.GetLeftX(), Constants::kJoystickDeadband);
-//         const double rotInput =
-//             ApplyDeadband(-m_driver.GetRightX(), Constants::kJoystickDeadband);
-
-//         const auto xVelocity = xInput * Constants::SwerveDrive::kMaxLinearSpeed;
-//         const auto yVelocity = yInput * Constants::SwerveDrive::kMaxLinearSpeed;
-//         const auto rotVelocity =
-//             rotInput * Constants::SwerveDrive::kMaxAngularSpeed;
-
-//         m_drive->DriveFieldRelative(
-//             frc::ChassisSpeeds{xVelocity, yVelocity, rotVelocity});
-//       },
-//       {m_drive.get()}));
 
   m_driver.Square().OnTrue(Run([this] { m_elevator->SetElevatorHeight(1.0_m); },{m_elevator.get()}));
 
   m_driver.Triangle().OnTrue(Run([this] { m_elevator->SetElevatorHeight(0.0_m); }, {m_elevator.get()}));
 
 
-  // m_driver.Circle().OnTrue(
-  //   Run([this] { m_elevator->SetElevatorHeight(0.6_m); },
-  //   {m_elevator.get()}));
 }
-
-
-// frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-//   return frc2::cmd::Print("No autonomous command configured");
-// }

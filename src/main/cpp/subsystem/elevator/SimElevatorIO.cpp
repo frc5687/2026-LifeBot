@@ -6,8 +6,15 @@
 #include "units/voltage.h"
 
 SimElevatorIO::SimElevatorIO() :
-    m_elevatorSim(ElevatorConstants::kMotors, ElevatorConstants::kGearRatio, ElevatorConstants::kMass, ElevatorConstants::kDrumRadius, ElevatorConstants:: kMaxHeight, ElevatorConstants::kMaxHeight, true, 0_m, {0.001,0.001}),
-    m_pidController(100, 0, 0, frc::TrapezoidProfile<units::meter>::Constraints(ElevatorConstants::kMaxVelocity, ElevatorConstants::kMaxAcceleration)) {}
+    m_elevatorSim(ElevatorConstants::kMotor,
+                  ElevatorConstants::kGearRatio,
+                  ElevatorConstants::kMass,
+                  ElevatorConstants::kDrumRadius,
+                  ElevatorConstants:: kMinHeight,
+                  ElevatorConstants::kMaxHeight, true, 0_m, {0.001,0.001}),
+    m_pidController(100, 0, 0,
+                    frc::TrapezoidProfile<units::meter>::Constraints(
+                        ElevatorConstants::kMaxVelocity, ElevatorConstants::kMaxAcceleration)) {}
 
 
     void SimElevatorIO::UpdateInputs(ElevatorIOInputs &inputs) {

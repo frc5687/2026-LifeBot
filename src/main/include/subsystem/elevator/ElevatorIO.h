@@ -2,6 +2,7 @@
 
 #include <units/length.h>
 #include <units/velocity.h>
+#include <units/voltage.h>
 
 struct ElevatorIOInputs {
   units::meter_t elevatorHeight{0_m};
@@ -17,7 +18,7 @@ class ElevatorIO {
 
   virtual void UpdateInputs(ElevatorIOInputs& inputs) = 0;
   virtual void SetHeight(units::meter_t height) = 0;
-
+  virtual void SetVoltage(units::volt_t voltage){}
 
   virtual bool AtSetpoint() = 0;
 };

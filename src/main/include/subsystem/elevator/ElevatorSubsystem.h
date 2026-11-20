@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <units/length.h>
+#include <units/voltage.h>
 
 #include "subsystem/LoggedSubsystem.h"
 #include "subsystem/elevator/ElevatorIO.h"
@@ -12,6 +13,7 @@ class ElevatorSubsystem final : public LoggedSubsystem {
   explicit ElevatorSubsystem(std::unique_ptr<ElevatorIO> io);
   ~ElevatorSubsystem() = default;
   void SetElevatorHeight(units::meter_t desiredHeight);
+  void SetVoltage(units::volt_t);
   bool AtSetpoint();
 
  protected:
@@ -21,5 +23,5 @@ class ElevatorSubsystem final : public LoggedSubsystem {
  private:
   std::unique_ptr<ElevatorIO> m_io;
   ElevatorIOInputs m_inputs{};
-  units::meter_t m_desiredPostion{0_m};
+  units::meter_t m_desiredPostion;
 };

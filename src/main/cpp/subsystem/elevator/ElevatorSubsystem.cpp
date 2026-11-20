@@ -5,14 +5,15 @@
 #include "subsystem/elevator/ElevatorConstants.h"
 
 ElevatorSubsystem::ElevatorSubsystem(std::unique_ptr<ElevatorIO> io)
-    : LoggedSubsystem("Elevator"), m_io{std::move(io)} {
-  m_io->UpdateInputs(m_inputs);
-}
+    : LoggedSubsystem("Elevator"), m_io{std::move(io)} {}
 
 void ElevatorSubsystem::SetElevatorHeight(units::meter_t height) {
   m_io->SetHeight(height);
 }
 
+void ElevatorSubsystem::SetVoltage(units::volt_t voltage){
+    m_io ->SetVoltage(voltage);
+}
 
 bool ElevatorSubsystem::AtSetpoint(){
   if ( m_desiredPostion - m_inputs.elevatorHeight < ElevatorConstants::kPositionTolorance){

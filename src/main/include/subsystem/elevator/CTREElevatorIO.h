@@ -31,69 +31,52 @@
 
 //   bool m_configured{false};
 // };
-
-
-// Team 5687 2026
-
 #pragma once
 
-#include <array>
-
-#include <ctre/phoenix6/StatusSignal.hpp>
-#include <ctre/phoenix6/TalonFX.hpp>
-#include <ctre/phoenix6/controls/Follower.hpp>
-#include <ctre/phoenix6/controls/NeutralOut.hpp>
-#include <ctre/phoenix6/controls/PositionVoltage.hpp>
-#include <ctre/phoenix6/controls/VelocityVoltage.hpp>
-#include <ctre/phoenix6/controls/VoltageOut.hpp>
-
 #include "ElevatorIO.h"
-#include "ctre/phoenix6/CANrange.hpp"
-#include "ctre/phoenix6/controls/TorqueCurrentFOC.hpp"
-#include "ctre/phoenix6/core/CoreCANrange.hpp"
-#include "frc/DigitalInput.h"
+#include "ctre/phoenix6/StatusSignal.hpp"
+#include "ctre/phoenix6/TalonFX.hpp"
+#include "ctre/phoenix6/controls/MotionMagicVoltage.hpp"
+#include "ctre/phoenix6/controls/VoltageOut.hpp"
+#include "ctre/phoenix6/core/CoreTalonFX.hpp"
+#include "units/angle.h"
+#include "units/angular_velocity.h"
 #include "utils/CANDevice.h"
 
 class CTREElevatorIO : public ElevatorIO {
-public:
-    CTREElevatorIO(const CANDevice &leader, const CANDevice &follower);
+ public:
+  CTREElevatorIO(const CANDevice& leftMotor, const CANDevice& rightMotor);
+  void UpdateInputs(ElevatorIOInputs& inputs) override;
+  void SetHeight(units::meter_t desiredHeight) override;
+  void SetVoltage(units::volt_t voltage) override;
 
-    void UpdateInputs(ElevatorIOInputs &inputs) override;
-    void SetHeight(units::meter_t height) override;
+ private:
+  ctre::phoenix6::hardware::TalonFX m_leftMotor;
+  ctre::phoenix6::hardware::TalonFX m_rightMotor;
 
-private:
-  ctre::phoenix6::hardware::TalonFX m_leader;
-  ctre::phoenix6::hardware::TalonFX m_follower;
+  // Remember that CTRE singals are OWNED by the motor, so we just get a
+  // reference to that signal
+  ctre::phoenix6::StatusSignal<units::turn_t>& m_leftMotorPositionSignal;
+  ctre::phoenix6::StatusSignal<units::turns_per_second_t>&
+      m_leftMotorVelocitySignal;
+  ctre::phoenix6::StatusSignal<units::ampere_t>& m_leftCurrentSignal;
 
-  // ctre::phoenix6::hardware::CANrange m_canRange;
+  ctre::phoenix6::StatusSignal<units::turn_t>& m_rightMotorPositionSignal;
+  ctre::phoenix6::StatusSignal<units::turns_per_second_t>&
+      m_rightMotorVelocitySignal;
+  ctre::phoenix6::StatusSignal<units::ampere_t>& m_rightCurrentSignal;
 
-  ctre::phoenix6::StatusSignal<units::turn_t> &m_positionSignal;
-  ctre::phoenix6::StatusSignal<units::turns_per_second_t> &m_velocitySignal;
-  ctre::phoenix6::StatusSignal<units::volt_t> &m_voltageSignal;
-  ctre::phoenix6::StatusSignal<units::ampere_t> &m_statorSignal;
-  ctre::phoenix6::StatusSignal<units::ampere_t> &m_supplySignal;
-  ctre::phoenix6::StatusSignal<units::ampere_t> &m_followerStatorSignal;
-  ctre::phoenix6::StatusSignal<units::ampere_t> &m_followerSupplySignal;
-  ctre::phoenix6::StatusSignal<units::volt_t> &m_followerVoltageSignal;
-  // ctre::phoenix6::StatusSignal<bool> &m_fuelDetected;
+  std::array<ctre::phoenix6::BaseStatusSignal*, 6> m_batchSignals;
 
-  std::array<ctre::phoenix6::BaseStatusSignal *, 8> m_signals;
+  // ctre::phoenix6::controls::PositionVoltage m_leftController;
+  // ctre::phoenix6::controls::PositionVoltage m_rightController;
 
-  ctre::phoenix6::controls::VelocityVoltage m_velocityRequest{0_tps};
-  ctre::phoenix6::controls::PositionVoltage m_positionRequest{0_tr};
-  ctre::phoenix6::controls::VoltageOut m_voltageRequest{0_V};
-  ctre::phoenix6::controls::NeutralOut m_neutralRequest{};
-  ctre::phoenix6::controls::TorqueCurrentFOC m_currentRequest{0_A};
+  ctre::phoenix6::controls::MotionMagicVoltage m_leftController;
+  ctre::phoenix6::controls::MotionMagicVoltage m_rightController;
 
-  ctre::phoenix6::configs::TalonFXConfiguration m_leaderConfig{};
+  ctre::phoenix6::controls::VoltageOut m_leftVoltage;
+  ctre::phoenix6::controls::VoltageOut m_rightVoltage;
 
-  frc::DigitalInput m_laser{0};
-  // ctre::phoenix6::configs::CANrangeConfiguration m_canRangeConfig{};
-
-  void ConfigureDevices();
-  void ConfigureCANRange();
-  void ConfigureFollower(ctre::phoenix6::hardware::TalonFX &follower,
-                         int leaderDeviceId, bool opposeLeader);
-  void ConfigureClosedLoop();
-  void ConfigureSignalFrequencies();
+  ctre::phoenix6::configs::TalonFXConfiguration m_leftConfig{};
+  ctre::phoenix6::configs::TalonFXConfiguration m_rightConfig{};
 };

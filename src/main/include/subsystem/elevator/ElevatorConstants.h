@@ -10,11 +10,13 @@
 namespace ElevatorConstants {
 
 
-inline constexpr double kGearRatio = 9.0;  // TODO: enter actual ratio
+inline constexpr double kGearRatio = 4.0;  // TODO: enter actual ratio
 
 inline constexpr frc::DCMotor kMotor = frc::DCMotor::KrakenX60(2);
 
-inline constexpr units::meter_t kDrumRadius = .2_m;  // TODO: measure it
+inline constexpr units::meter_t kDrumRadius = 0.0215_m;  // TODO: measure it
+inline constexpr auto kCircumference =
+    2.0 * std::numbers::pi_v<double> * kDrumRadius;
 
 inline constexpr units::kilogram_t kMass = 1_kg;
 
